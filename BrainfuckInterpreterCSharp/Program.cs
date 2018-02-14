@@ -2,7 +2,7 @@
 
 namespace BrainfuckInterpreterCSharp {
     internal static class Program {
-        private static void Main(string[] args) {
+        private static void Main() {
             
             var interpreter = new BrainfuckInterpreter(BrainfuckExamples.BrainfuckExamples.HelloWorld);
             interpreter.Parse();
