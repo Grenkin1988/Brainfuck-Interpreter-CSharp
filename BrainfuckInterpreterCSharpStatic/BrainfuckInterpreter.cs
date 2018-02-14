@@ -18,80 +18,74 @@ namespace BrainfuckInterpreterCSharpStatic {
             uint nextCommandIndex = 0;
             var byteCells = new byte[5];
             uint pointer = 0;
-            (char[] program, uint nextCommandIndex, byte[] byteCells, uint pointer) result 
-                = ProcessNextCommand(cleanProgram, nextCommandIndex, byteCells, pointer);
+
+            ProcessNextCommand(cleanProgram, nextCommandIndex, byteCells, pointer);
         }
 
         private static string CleanInputProgram(this string program) {
             return Regex.Replace(program, @"[^><+-.,[\]]", string.Empty);
         }
 
-        private static (char[] program, uint nextCommandIndex, byte[] byteCells, uint pointer) ProcessNextCommand(
+        private static void ProcessNextCommand(
             char[] program,
             uint nextCommandIndex,
             byte[] byteCells,
             uint pointer) {
-            (char[] program, uint nextCommandIndex, byte[] byteCells, uint pointer) result
-                = (program, nextCommandIndex, byteCells, pointer);
-
             switch (program[nextCommandIndex]) {
                 case MovePointerToRightCommand: {
-                    (result.byteCells, result.pointer)
-                        = ExecuteMovePointerToRightCommand(result.byteCells, result.pointer);
-                    result.nextCommandIndex++;
+                    (byteCells, pointer)
+                        = ExecuteMovePointerToRightCommand(byteCells, pointer);
+                    nextCommandIndex++;
                     break;
                 }
                 case MovePointerToLeftCommand: {
-                    (result.byteCells, result.pointer)
-                        = ExecuteMovePointerToLeftCommand(result.byteCells, result.pointer);
-                    result.nextCommandIndex++;
+                    pointer = ExecuteMovePointerToLeftCommand(pointer);
+                    nextCommandIndex++;
                     break;
                 }
                 case IncreaseCurrentCellCommand: {
-                    (result.byteCells, result.pointer)
-                        = ExecuteIncreaseCurrentCellCommand(result.byteCells, result.pointer);
-                    result.nextCommandIndex++;
+                    byteCells = ExecuteIncreaseCurrentCellCommand(byteCells, pointer);
+                    nextCommandIndex++;
                     break;
                 }
                 case DecreaseCurrentCellCommand: {
-                    (result.byteCells, result.pointer)
-                        = ExecuteDecreaseCurrentCellCommand(result.byteCells, result.pointer);
-                    result.nextCommandIndex++;
+                    byteCells = ExecuteDecreaseCurrentCellCommand(byteCells, pointer);
+                    nextCommandIndex++;
                     break;
                 }
                 case PrintCurrentCellCommand: {
-                    (result.byteCells, result.pointer)
-                        = ExecutePrintCurrentCellCommand(result.byteCells, result.pointer);
-                    result.nextCommandIndex++;
+                    ExecutePrintCurrentCellCommand(byteCells, pointer);
+                    nextCommandIndex++;
                     break;
                 }
                 case ReadToCurrentCellCommand: {
-                    (result.byteCells, result.pointer)
-                        = ExecuteReadToCurrentCellCommand(result.byteCells, result.pointer);
-                    result.nextCommandIndex++;
+                    byteCells = ExecuteReadToCurrentCellCommand(byteCells, pointer);
+                    nextCommandIndex++;
                     break;
                 }
                 case LoopStartCommand: {
-                    if (result.byteCells[result.pointer] == 0) {
-                        result.nextCommandIndex = FindCorespondingLoopEnd(result.program, result.nextCommandIndex);
+                    if (byteCells[pointer] == 0) {
+                        nextCommandIndex = FindCorespondingLoopEnd(program, nextCommandIndex);
                     } else {
-                        result.nextCommandIndex++;
+                        nextCommandIndex++;
                     }
+
                     break;
                 }
                 case LoopEndCommand: {
-                    if (result.byteCells[result.pointer] != 0) {
-                        result.nextCommandIndex = FindCorespondingLoopStart(result.program, result.nextCommandIndex);
+                    if (byteCells[pointer] != 0) {
+                        nextCommandIndex = FindCorespondingLoopStart(program, nextCommandIndex);
                     } else {
-                        result.nextCommandIndex++;
+                        nextCommandIndex++;
                     }
+
                     break;
                 }
             }
 
-            return result.nextCommandIndex < program.Length ? 
-                ProcessNextCommand(result.program, result.nextCommandIndex, result.byteCells, result.pointer) 
-                : result;
+            if (nextCommandIndex < program.Length) {
+                ProcessNextCommand(program, nextCommandIndex, byteCells, pointer);
+            }
         }
 
         private static (byte[] byteCells, uint pointer) ExecuteMovePointerToRightCommand(byte[] byteCells, uint pointer) {
@@ -112,30 +106,29 @@ namespace BrainfuckInterpreterCSharpStatic {
             return newByteCells;
         }
 
-        private static (byte[] byteCells, uint pointer) ExecuteMovePointerToLeftCommand(byte[] byteCells, uint pointer) {
+        private static uint ExecuteMovePointerToLeftCommand(uint pointer) {
             pointer = pointer > 0 ? pointer - 1 : pointer;
-            return (byteCells, pointer);
+            return pointer;
         }
 
-        private static (byte[] byteCells, uint pointer) ExecuteIncreaseCurrentCellCommand(byte[] byteCells, uint pointer) {
+        private static byte[] ExecuteIncreaseCurrentCellCommand(byte[] byteCells, uint pointer) {
             byteCells[pointer]++;
-            return (byteCells, pointer);
+            return byteCells;
         }
 
-        private static (byte[] byteCells, uint pointer) ExecuteDecreaseCurrentCellCommand(byte[] byteCells, uint pointer) {
+        private static byte[] ExecuteDecreaseCurrentCellCommand(byte[] byteCells, uint pointer) {
             byteCells[pointer]--;
-            return (byteCells, pointer);
+            return byteCells;
         }
 
-        private static (byte[] byteCells, uint pointer) ExecutePrintCurrentCellCommand(byte[] byteCells, uint pointer) {
+        private static void ExecutePrintCurrentCellCommand(byte[] byteCells, uint pointer) {
             Console.Write((char)byteCells[pointer]);
-            return (byteCells, pointer);
         }
 
-        private static (byte[] byteCells, uint pointer) ExecuteReadToCurrentCellCommand(byte[] byteCells, uint pointer) {
+        private static byte[] ExecuteReadToCurrentCellCommand(byte[] byteCells, uint pointer) {
             ConsoleKeyInfo key = Console.ReadKey();
             byteCells[pointer] = (byte)key.KeyChar;
-            return (byteCells, pointer);
+            return byteCells;
         }
 
         private static uint FindCorespondingLoopEnd(char[] program, uint currentCommandIndex) {
@@ -153,7 +146,7 @@ namespace BrainfuckInterpreterCSharpStatic {
 
                         innerLoopsCount--;
                         break;
-                    }   
+                    }
                 }
             }
 
@@ -175,7 +168,7 @@ namespace BrainfuckInterpreterCSharpStatic {
 
                         innerLoopsCount--;
                         break;
-                    }   
+                    }
                 }
             }
 
