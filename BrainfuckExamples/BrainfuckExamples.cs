@@ -1,4 +1,4 @@
-﻿namespace BrainfuckInterpreterCSharp {
+﻿namespace BrainfuckExamples {
     public static class BrainfuckExamples {
         public static string SimpleAddNumbers = @"
 ++       Cell c0 = 2
@@ -69,7 +69,7 @@ Pointer :   ^
 >>+.                    Add 1 to Cell #5 gives us an exclamation point
 >++.                    And finally a newline from Cell #6";
 
-        public static string ROT13 = @"
+        public static string Rot13 = @"
 -,+[                         Read first character and start outer character reading loop
     -[                       Skip forward if character is 0
         >>++++[>++++++++<-]  Set up divisor (32) for division loop
@@ -98,6 +98,5 @@ Pointer :   ^
     <.[-]                    Output ROT13ed character from copy and clear it
     <-,+                     Read next character
 ]                            End character reading loop";
-
     }
 }

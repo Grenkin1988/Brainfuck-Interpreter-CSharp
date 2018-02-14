@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainfuckInterpreterCSharp"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainfuckInterpreterCSharpStatic", "BrainfuckInterpreterCSharpStatic\BrainfuckInterpreterCSharpStatic.csproj", "{7DE8407C-CF27-45F0-9684-63BD91A2CD0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainfuckExamples", "BrainfuckExamples\BrainfuckExamples.csproj", "{F5747BC8-6902-4477-9477-83F04730EB34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7DE8407C-CF27-45F0-9684-63BD91A2CD0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DE8407C-CF27-45F0-9684-63BD91A2CD0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DE8407C-CF27-45F0-9684-63BD91A2CD0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5747BC8-6902-4477-9477-83F04730EB34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5747BC8-6902-4477-9477-83F04730EB34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5747BC8-6902-4477-9477-83F04730EB34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5747BC8-6902-4477-9477-83F04730EB34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
