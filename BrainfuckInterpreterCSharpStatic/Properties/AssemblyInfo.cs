@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BrainfuckInterpreter")]
+[assembly: AssemblyTitle("BrainfuckInterpreterCSharpStatic")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BrainfuckInterpreter")]
+[assembly: AssemblyProduct("BrainfuckInterpreterCSharpStatic")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1d1fc09d-070b-4af0-b1c0-b99a7b8bb3a2")]
+[assembly: Guid("7de8407c-cf27-45f0-9684-63bd91a2cd0c")]
 
 // Version information for an assembly consists of the following four values:
 //

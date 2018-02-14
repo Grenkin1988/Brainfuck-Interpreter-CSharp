@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D1FC09D-070B-4AF0-B1C0-B99A7B8BB3A2}</ProjectGuid>
+    <ProjectGuid>{7DE8407C-CF27-45F0-9684-63BD91A2CD0C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>BrainfuckInterpreterCSharp</RootNamespace>
-    <AssemblyName>BrainfuckInterpreterCSharp</AssemblyName>
+    <RootNamespace>BrainfuckInterpreterCSharpStatic</RootNamespace>
+    <AssemblyName>BrainfuckInterpreterCSharpStatic</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,9 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrainfuckExamples.cs" />
-    <Compile Include="BrainfuckInterpreter.cs" />
-    <Compile Include="Commands.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
