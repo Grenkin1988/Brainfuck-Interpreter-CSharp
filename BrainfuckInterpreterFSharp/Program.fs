@@ -8,7 +8,84 @@ type ProgrammData = {
     Pointer: int
 }
 
-let contains x =
+type Commands =
+    | MovePointerToRight
+    | MovePointerToLeft
+    | IncreaseCurrentCell
+    | DecreaseCurrentCell
+    | PrintCurrentCell
+    | ReadToCurrentCell
+    | LoopCommand of list<Commands>
+
+let parse (commands: seq<char>) =
+    let rec mapCommand (cmd: char) (cmds: char list) =
+        match cmd with
+        | '>' -> MovePointerToRight
+        | '<' -> MovePointerToLeft
+        | '+' -> IncreaseCurrentCell
+        | '-' -> DecreaseCurrentCell
+        | '.' -> PrintCurrentCell
+        | ',' -> ReadToCurrentCell
+        | '[' -> mapCommand cmds.Head cmds.Tail
+        | _ -> failwith "AAAAAAAAA!!!!"
+
+    let rec parseCommands (cmds: char list) (parsed: Commands list) =
+        match cmds with
+        | [] -> 
+            parsed
+        | head::tail -> 
+            parseCommands tail parsed
+
+    commands
+    |> Seq.toList 
+
+
+    module private Parser =
+        let allowedSymbols = set ['>'; '<'; '+'; '-'; '.'; ','; '['; ']']
+
+        let (|IsStmt|_|) str = 
+            let (|IsChar|_|) = function [] -> None | ch::_ -> Some ch
+            
+            match str with
+            | IsChar '>' -> Some MovePointerToRight
+            | IsChar '<' -> Some MovePointerToLeft
+            | IsChar '+' -> Some IncreaseCurrentCell
+            | IsChar '-' -> Some DecreaseCurrentCell
+            | IsChar '.' -> Some PrintCurrentCell
+            | IsChar ',' -> Some ReadToCurrentCell
+            | _ -> None
+            |> Option.map(fun x->x, List.tail str)
+
+        let rec (|Stmts|) (str:char list)  =
+            let rec getStmts curr = function
+            | (IsParsable (op, remaining)) -> getStmts (op :: curr) remaining
+            | remaining -> curr, remaining
+            getStmts [] str 
+        
+        and (|IsWhileLoop|_|) = function
+        | '[' :: Stmts (stms, ']' :: xs)  ->
+            Some (stms |> List.rev |> LoopCommand, xs)
+        | _ -> None
+
+        and (|IsParsable|_|) = function
+        | IsWhileLoop (op, xs)
+        | IsStmt (op, xs) -> (op, xs) |> Some
+        | _ -> None
+
+        let rec parse' = function
+        | [] -> []
+        | IsParsable (op, xs) -> op :: parse' xs
+        | x -> failwithf "failed parsing %A" x
+
+        let parse s = 
+            s 
+            |> Seq.filter allowedSymbols.Contains 
+            |> List.ofSeq 
+            |> parse'
+
+
+
+let contains x = 
     Seq.exists ((=) x)
 
 let replaceAt list index value =
