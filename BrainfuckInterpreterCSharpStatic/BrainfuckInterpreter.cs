@@ -65,7 +65,7 @@ namespace BrainfuckInterpreterCSharpStatic {
                 }
                 case LoopStartCommand: {
                     if (byteCells[pointer] == 0) {
-                        nextCommandIndex = FindCorespondingLoopEnd(program, nextCommandIndex);
+                        nextCommandIndex = FindCorrespondingLoopEnd(program, nextCommandIndex);
                     } else {
                         nextCommandIndex++;
                     }
@@ -74,7 +74,7 @@ namespace BrainfuckInterpreterCSharpStatic {
                 }
                 case LoopEndCommand: {
                     if (byteCells[pointer] != 0) {
-                        nextCommandIndex = FindCorespondingLoopStart(program, nextCommandIndex);
+                        nextCommandIndex = FindCorrespondingLoopStart(program, nextCommandIndex);
                     } else {
                         nextCommandIndex++;
                     }
@@ -131,7 +131,7 @@ namespace BrainfuckInterpreterCSharpStatic {
             return byteCells;
         }
 
-        private static uint FindCorespondingLoopEnd(char[] program, uint currentCommandIndex) {
+        private static uint FindCorrespondingLoopEnd(char[] program, uint currentCommandIndex) {
             uint innerLoopsCount = 0;
             for (uint i = currentCommandIndex + 1; i < program.Length; i++) {
                 switch (program[i]) {
@@ -150,10 +150,10 @@ namespace BrainfuckInterpreterCSharpStatic {
                 }
             }
 
-            throw new InvalidDataException(@"Programm do not have coresponding closing ""]""");
+            throw new InvalidDataException(@"Program do not have corresponding closing ""]""");
         }
 
-        private static uint FindCorespondingLoopStart(char[] program, uint currentCommandIndex) {
+        private static uint FindCorrespondingLoopStart(char[] program, uint currentCommandIndex) {
             uint innerLoopsCount = 0;
             for (int i = (int)currentCommandIndex - 1; i >= 0; i--) {
                 switch (program[i]) {
@@ -172,7 +172,7 @@ namespace BrainfuckInterpreterCSharpStatic {
                 }
             }
 
-            throw new InvalidDataException(@"Programm do not have coresponding closing ""]""");
+            throw new InvalidDataException(@"Program do not have corresponding closing ""]""");
         }
     }
 }

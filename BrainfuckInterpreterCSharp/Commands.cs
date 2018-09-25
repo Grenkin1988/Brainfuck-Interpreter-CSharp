@@ -3,26 +3,26 @@ using System.Collections.Generic;
 
 namespace BrainfuckInterpreterCSharp {
     public interface ICommand {
-        ProgrammData Execute(ProgrammData data);
+        ProgramData Execute(ProgramData data);
     }
 
     public class MovePointerToRightCommand : ICommand {
-        public ProgrammData Execute(ProgrammData data) {
+        public ProgramData Execute(ProgramData data) {
             data.Pointer++;
             byte[] byteCells = data.ByteCells;
             if (data.Pointer >= data.ByteCells.Length) {
                 byteCells = AddCell(data.ByteCells);
             }
 
-            return new ProgrammData {
+            return new ProgramData {
                 Pointer = data.Pointer,
                 ByteCells = byteCells
             };
         }
 
-        private byte[] AddCell(byte[] byteCells) {
-            var newByteCells = new byte[byteCells.Length + 1];
-            for (int i = 0; i < byteCells.Length; i++) {
+        private static byte[] AddCell(IReadOnlyList<byte> byteCells) {
+            var newByteCells = new byte[byteCells.Count + 1];
+            for (int i = 0; i < byteCells.Count; i++) {
                 newByteCells[i] = byteCells[i];
             }
 
@@ -33,13 +33,13 @@ namespace BrainfuckInterpreterCSharp {
     }
 
     public class MovePointerToLeftCommand : ICommand {
-        public ProgrammData Execute(ProgrammData data) {
+        public ProgramData Execute(ProgramData data) {
             if (data.Pointer == 0) {
                 return data;
             }
 
             data.Pointer--;
-            return new ProgrammData {
+            return new ProgramData {
                 Pointer = data.Pointer,
                 ByteCells = data.ByteCells
             };
@@ -49,9 +49,9 @@ namespace BrainfuckInterpreterCSharp {
     }
 
     public class IncreaseCurrentCellCommand : ICommand {
-        public ProgrammData Execute(ProgrammData data) {
+        public ProgramData Execute(ProgramData data) {
             data.ByteCells[data.Pointer]++;
-            return new ProgrammData {
+            return new ProgramData {
                 Pointer = data.Pointer,
                 ByteCells = data.ByteCells
             };
@@ -61,9 +61,9 @@ namespace BrainfuckInterpreterCSharp {
     }
 
     public class DecreaseCurrentCellCommand : ICommand {
-        public ProgrammData Execute(ProgrammData data) {
+        public ProgramData Execute(ProgramData data) {
             data.ByteCells[data.Pointer]--;
-            return new ProgrammData {
+            return new ProgramData {
                 Pointer = data.Pointer,
                 ByteCells = data.ByteCells
             };
@@ -73,9 +73,9 @@ namespace BrainfuckInterpreterCSharp {
     }
 
     public class PrintCurrentCellCommand : ICommand {
-        public ProgrammData Execute(ProgrammData data) {
+        public ProgramData Execute(ProgramData data) {
             Console.Write((char)data.ByteCells[data.Pointer]);
-            return new ProgrammData {
+            return new ProgramData {
                 Pointer = data.Pointer,
                 ByteCells = data.ByteCells
             };
@@ -85,10 +85,10 @@ namespace BrainfuckInterpreterCSharp {
     }
 
     public class ReadToCurrentCellCommand : ICommand {
-        public ProgrammData Execute(ProgrammData data) {
+        public ProgramData Execute(ProgramData data) {
             ConsoleKeyInfo key = Console.ReadKey();
             data.ByteCells[data.Pointer] = (byte)key.KeyChar;
-            return new ProgrammData {
+            return new ProgramData {
                 Pointer = data.Pointer,
                 ByteCells = data.ByteCells
             };
@@ -99,10 +99,10 @@ namespace BrainfuckInterpreterCSharp {
 
     public class LoopCommand : ICommand {
         private List<ICommand> _commands = new List<ICommand>();
-        private ProgrammData _currentData;
+        private ProgramData _currentData;
         private int? _currentLoopIndex;
 
-        public ProgrammData Execute(ProgrammData data) {
+        public ProgramData Execute(ProgramData data) {
             _currentData = data;
 
             while (_currentData.ByteCells[_currentData.Pointer] != 0) {

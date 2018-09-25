@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
 
 namespace BrainfuckInterpreterCSharp {
-    public class ProgrammData {
+    public class ProgramData {
         public byte[] ByteCells { get; set; } = new byte[5];
         public uint Pointer { get; set; }
     }
 
     public class BrainfuckInterpreter {
-        private string _inputProgramm;
-        private ProgrammData _currentData = new ProgrammData();
-        private List<ICommand> _commands = new List<ICommand>();
+        private readonly string _inputProgram;
+        private ProgramData _currentData = new ProgramData();
+        private readonly List<ICommand> _commands = new List<ICommand>();
         private int? _currentLoopIndex;
 
-        public BrainfuckInterpreter(string programm) {
-            _inputProgramm = programm;
+        public BrainfuckInterpreter(string program) {
+            _inputProgram = program;
         }
 
         public void Parse() {
-            foreach (char nextChar in _inputProgramm) {
+            foreach (char nextChar in _inputProgram) {
                 switch (nextChar) {
                     case '>': {
                         AddNextCommand(new MovePointerToRightCommand());

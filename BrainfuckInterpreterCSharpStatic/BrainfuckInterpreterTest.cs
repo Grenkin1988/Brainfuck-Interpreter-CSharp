@@ -4,7 +4,7 @@ using Xunit;
 
 namespace BrainfuckInterpreterCSharpStatic {
     public class BrainfuckInterpreterTest : IDisposable {
-        private StringWriter _stringWriter;
+        private readonly StringWriter _stringWriter;
 
         public BrainfuckInterpreterTest() {
             _stringWriter = new StringWriter();
